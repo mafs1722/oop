@@ -1,5 +1,5 @@
-
-import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringCalculator {
     public int add(String numbers) {
@@ -13,13 +13,19 @@ public class StringCalculator {
             return 0;
         }
 
-        // створюємо розділювач
-        String delimiter = createDelimiter(numbers);
+        // перевіряє чи є у рядку //...\n...
+        Matcher matcher = Pattern.compile("//(.*)\\\\n(.*)").matcher(numbers);
+        String delimiter;
 
-        // видаляємо розділювач з рядка
-        numbers = numbers.substring(numbers.indexOf("\n") + 1);
+        // перевіряє чи є у рядку //...\n...
+        if (matcher.matches()) {
+            delimiter = createDelimiter(matcher.group(1));
+            numbers = matcher.group(2);
+        } else {
+            delimiter = ",|\\\\n";
+        }
 
-        // створюємо масив значень
+        // перетворює масив рядків у масив чисел
         int[] values = convertStringArrayToIntArray(numbers.split(delimiter));
 
         // перевіряє чи є від'ємні числа в масиві
@@ -33,37 +39,34 @@ public class StringCalculator {
         return getSumOfArrayValues(values);
     }
 
-    // функція, яка створю розділювач
-    private String createDelimiter(String numbers) {
-        // перевіряє чи є в рядку \\[delimiter]\n
-        if (numbers.contains("\\") && numbers.contains("\n"))
-            // первіряє чи є в рядку [ та ]
-            if (numbers.contains("[") && numbers.contains("]"))
-                return createDelimiterFromMultipleScopes(numbers);
-            else
-                return getDelimiter(numbers);
-
-        return ",|\\n";
-    }
-
-    // створює делімітер якщо в рядку існує \\[][][]\n
-    private String createDelimiterFromMultipleScopes(String numbers) {
-        String[] delimiters = getDelimiter(numbers).split("\\[");
+    private String createDelimiter(String delimiter) {
         StringBuilder result = new StringBuilder();
 
-        for (int i = 0; i < delimiters.length; i++) {
-            if (!Objects.equals(delimiters[i], ""))
-                if (i != delimiters.length - 1)
-                    result.append(delimiters[i].replace("]", "")).append("|");
-                else result.append(delimiters[i].replace("]", ""));
+        // перевіряє чи є у рядку [ та ]
+        if (delimiter.contains("[") && delimiter.contains("]")) {
+            Pattern p = Pattern.compile("\\[(.*?)\\]");
+            Matcher m = p.matcher(delimiter);
+
+            while(m.find()) {
+                StringBuilder str = new StringBuilder();
+
+                for (int i = 0; i < m.group(1).length(); i++) {
+                    str.append("\\").append(m.group(1).charAt(i));
+                }
+
+                str.append("|");
+
+                result.append(str);
+            }
+
+            result.deleteCharAt(result.length() - 1);
+        } else {
+            for (int i = 0; i < delimiter.length(); i++) {
+                result.append("\\").append(delimiter.charAt(i));
+            }
         }
 
         return result.toString();
-    }
-
-    // повертає розділювач з рядка
-    private String getDelimiter(String numbers) {
-        return numbers.substring(numbers.indexOf("\\") + 1, numbers.indexOf("\n"));
     }
 
     // Перетворю строковий масив в масив з числами
@@ -80,8 +83,7 @@ public class StringCalculator {
     // Перевіряє чи є в масиві негативні числа
     private boolean isNegativeValueInArray(int[] values) {
         for (int value: values) {
-            if (value < 0)
-                return true;
+            if (value < 0) return true;
         }
 
         return false;
