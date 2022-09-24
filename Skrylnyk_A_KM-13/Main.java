@@ -1,14 +1,15 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class Main {
-    public static void main(String[] args) {
-//        String numbers = ""; // 0
-//        String numbers = "1,2,3"; // 6
-//          String numbers = "1,2\n3"; // 6
-//        String numbers = "\\;\n1;2;3"; // 6
-//        String numbers = "\\;\n1;-2;3"; // помилка, бо має негативне значення
-        String numbers = "\\[&][%]\n1&2%3"; // 6
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         StringCalculator calculator = new StringCalculator();
 
-        System.out.println("Result: " + calculator.add(numbers));
+        System.out.print("Enter numbers: ");
+        String numbers = reader.readLine();
 
+        System.out.println("Result: " + calculator.add(numbers));
     }
 }
