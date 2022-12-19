@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.fpm.di.example.Example" tests="8" skipped="0" failures="0" errors="0" timestamp="2022-12-19T19:29:32" hostname="DESKTOP-HH8TAG6" time="0.014">
+  <properties/>
+  <testcase name="shouldInjectSingleton" classname="org.fpm.di.example.Example" time="0.008"/>
+  <testcase name="shouldBuildInjectionGraphMyFlatsHierarchy" classname="org.fpm.di.example.Example" time="0.003"/>
+  <testcase name="shouldInjectPrototype" classname="org.fpm.di.example.Example" time="0.0"/>
+  <testcase name="shouldInjectSingletonMyFlatsHierarchy" classname="org.fpm.di.example.Example" time="0.0"/>
+  <testcase name="shouldInjectPrototypeMyFlatsHierarchy" classname="org.fpm.di.example.Example" time="0.0"/>
+  <testcase name="shouldBuildInjectionGraph" classname="org.fpm.di.example.Example" time="0.0"/>
+  <testcase name="shouldBuildInjectDependencies" classname="org.fpm.di.example.Example" time="0.0"/>
+  <testcase name="shouldBuildInjectDependenciesMyFlatsHierarchy" classname="org.fpm.di.example.Example" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
